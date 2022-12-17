@@ -5,8 +5,8 @@ const line = require('@line/bot-sdk');
 const { Configuration, OpenAIApi } = require('openai');
 
 const config = {
-  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN, // 替換成你的 CHANNEL_ACCESS_TOKEN
-  channelSecret: process.env.CHANNEL_SECRET, // 替換成你的 CHANNEL_SECRET
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.CHANNEL_SECRET,
 };
 
 const configuration = new Configuration({
@@ -26,7 +26,9 @@ app.get('/', (req, res) => {
 
 app.post('/callback', line.middleware(config), (req, res) => {
   Promise.all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result))
+    .then((result) => {
+      return res.json(result)
+    })
     .catch((error) => {
       console.error('🚀 ~ app.post ~ error', error);
       res.status(500).end();
@@ -38,7 +40,7 @@ const handleEvent = async (e) => {
   if (
     e.type !== 'message' ||
     e.message.type !== 'text' ||
-    !e.message.text.includes('/')
+    !e.message.text.includes('安安')
   )
     return Promise.resolve(null);
 
