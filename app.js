@@ -40,7 +40,7 @@ const handleEvent = async (e) => {
   if (
     e.type !== 'message' ||
     e.message.type !== 'text' ||
-    !e.message.text.includes('安安')
+    !(/^安安.*/).test(e.message.text)
   )
     return Promise.resolve(null);
 
